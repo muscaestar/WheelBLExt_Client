@@ -5,6 +5,11 @@
 #define SERVER_CHARACTERISTIC_UUID "cca12476-18c6-4001-b0f5-6fe1841d862e"
 #define BUILT_IN_LED 8
 #define SWITCH_PIN 0
+#define U_PIN 21
+#define D_PIN 20
+#define L_PIN 10
+#define R_PIN 7
+#define M_PIN 6
 
 #define BTN_NULL 0x00
 #define BTN_RB   0x20
@@ -148,6 +153,11 @@ void setup() {
   pinMode(BUILT_IN_LED, OUTPUT);
   // switch
   pinMode(SWITCH_PIN, INPUT_PULLDOWN);
+  pinMode(U_PIN, INPUT_PULLDOWN);
+  pinMode(D_PIN, INPUT_PULLDOWN);
+  pinMode(L_PIN, INPUT_PULLDOWN);
+  pinMode(R_PIN, INPUT_PULLDOWN);
+  pinMode(M_PIN, INPUT_PULLDOWN);
 }
 
 void loop() {
@@ -172,6 +182,21 @@ void loop() {
     if (digitalRead(SWITCH_PIN) == HIGH) { // means button is pressed
       pRemoteCharacteristic->writeValue(BTN_A, true);
       printForDebugln("Button A pressed");
+    } else if (digitalRead(U_PIN) == HIGH) {
+      pRemoteCharacteristic->writeValue(BTN_UP, true);
+      printForDebugln("Button UP pressed");
+    } else if (digitalRead(D_PIN) == HIGH) {
+      pRemoteCharacteristic->writeValue(BTN_DOWN, true);
+      printForDebugln("Button DOWN pressed");
+    } else if (digitalRead(L_PIN) == HIGH) {
+      pRemoteCharacteristic->writeValue(BTN_LEFT, true);
+      printForDebugln("Button LEFT pressed");
+    } else if (digitalRead(R_PIN) == HIGH) {
+      pRemoteCharacteristic->writeValue(BTN_RIGT, true);
+      printForDebugln("Button RIGHT pressed");
+    } else if (digitalRead(M_PIN) == HIGH) {
+      pRemoteCharacteristic->writeValue(BTN_B, true);
+      printForDebugln("Button MID pressed");
     } else {
       pRemoteCharacteristic->writeValue(BTN_NULL, true);
     }
