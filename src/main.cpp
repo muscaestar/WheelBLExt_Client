@@ -10,6 +10,7 @@
 #define L_PIN 10
 #define R_PIN 7
 #define M_PIN 6
+#define POT_PIN 1
 
 #define BTN_NULL 0x00
 #define BTN_RB   0x20
@@ -158,6 +159,7 @@ void setup() {
   pinMode(L_PIN, INPUT_PULLDOWN);
   pinMode(R_PIN, INPUT_PULLDOWN);
   pinMode(M_PIN, INPUT_PULLDOWN);
+  pinMode(POT_PIN, INPUT);
 }
 
 void loop() {
@@ -173,6 +175,9 @@ void loop() {
     }
     doConnect = false;
   }
+    int potVal = analogRead(POT_PIN);
+    printForDebug("POT value=");
+    printForDebugln(String(potVal) );
   // If we are connected to a peer BLE Server, update the characteristic each time we are reached
   // with the current time since boot.
   if (connected) {
@@ -197,6 +202,10 @@ void loop() {
     } else if (digitalRead(M_PIN) == HIGH) {
       pRemoteCharacteristic->writeValue(BTN_B, true);
       printForDebugln("Button MID pressed");
+    } else if (potVal <= 150 || potVal >= 300) {
+      // int mappedValue = map(analogRead(POT_PIN), 0, 4095, 0, 255);  // ESP32 has 12-bit ADC (0-4095)
+      pRemoteCharacteristic->writeValue(BTN_A, true);
+      printForDebugln("Button analog pressed");
     } else {
       pRemoteCharacteristic->writeValue(BTN_NULL, true);
     }
