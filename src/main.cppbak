@@ -1,0 +1,47 @@
+#include <Arduino.h>
+#include <FastLED.h>
+
+#define LED_PIN     21
+#define NUM_LEDS    1
+#define BRIGHTNESS  3
+#define LED_TYPE    WS2812
+#define COLOR_ORDER GRB
+
+CRGB leds[NUM_LEDS];
+
+
+void setup() {
+    Serial.begin(115200);
+    while(!Serial);
+    Serial.print("Hello World!\n");
+    FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.setBrightness(BRIGHTNESS);
+}
+
+void loop() {
+    Serial.println("loop");
+      // Red
+  leds[0] = CRGB::Red;
+  FastLED.show();
+  delay(1000);
+
+  // Green
+  leds[0] = CRGB::Green;
+  FastLED.show();
+  delay(1000);
+
+  // Blue
+  leds[0] = CRGB::Blue;
+  FastLED.show();
+  delay(1000);
+
+  // Purple (mix of red and blue)
+  leds[0] = CRGB::Purple;
+  FastLED.show();
+  delay(1000);
+
+  // Yellow (mix of red and green)
+  leds[0] = CRGB::Yellow;
+  FastLED.show();
+  delay(1000);
+}
